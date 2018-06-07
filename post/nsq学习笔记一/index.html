@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>NSQ学习笔记（一） - Elone Pages</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="elone" />
+  <meta name="description" content="NSQ学习笔记（一） 最近需要设想为我的开源项目yeetiku-react-native架一个消息系统，因为我的后端使用的是golang yeetiku-server, 所以" />
+
+  <meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.42-DEV" />
+
+
+<link rel="canonical" href="https://yeelone.github.io/post/nsq%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="https://yeelone.github.io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://yeelone.github.io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://yeelone.github.io/favicon-16x16.png">
+<link rel="manifest" href="https://yeelone.github.io/manifest.json">
+<link rel="mask-icon" href="https://yeelone.github.io/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="https://yeelone.github.io/dist/even.min.css?v=3.0.1" rel="stylesheet">
+<link href="https://yeelone.github.io/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="NSQ学习笔记（一）" />
+<meta property="og:description" content="NSQ学习笔记（一） 最近需要设想为我的开源项目yeetiku-react-native架一个消息系统，因为我的后端使用的是golang yeetiku-server, 所以" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yeelone.github.io/post/nsq%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/" />
+
+
+
+<meta property="article:published_time" content="2018-05-02T23:16:10&#43;08:00"/>
+
+<meta property="article:modified_time" content="2018-05-02T23:16:10&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="NSQ学习笔记（一）">
+<meta itemprop="description" content="NSQ学习笔记（一） 最近需要设想为我的开源项目yeetiku-react-native架一个消息系统，因为我的后端使用的是golang yeetiku-server, 所以">
+
+
+<meta itemprop="datePublished" content="2018-05-02T23:16:10&#43;08:00" />
+<meta itemprop="dateModified" content="2018-05-02T23:16:10&#43;08:00" />
+<meta itemprop="wordCount" content="1035">
+
+
+
+<meta itemprop="keywords" content="golang,nsq,学习笔记," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="NSQ学习笔记（一）"/>
+<meta name="twitter:description" content="NSQ学习笔记（一） 最近需要设想为我的开源项目yeetiku-react-native架一个消息系统，因为我的后端使用的是golang yeetiku-server, 所以"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="https://yeelone.github.io/" class="logo">Elone</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="https://yeelone.github.io/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="https://yeelone.github.io/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="https://yeelone.github.io/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="https://yeelone.github.io/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="https://yeelone.github.io/" class="logo">Elone</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">NSQ学习笔记（一）</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-05-02 </span>
+        <div class="post-category">
+            
+              <a href="https://yeelone.github.io/categories/nsq/"> NSQ </a>
+            
+              <a href="https://yeelone.github.io/categories/golang/"> Golang </a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li><a href="#nsq学习笔记-一">NSQ学习笔记（一）</a>
+<ul>
+<li><a href="#一-安装">一 安装</a></li>
+<li><a href="#一-组件">一、组件</a>
+<ul>
+<li><a href="#1-nsqlookup">1、<strong><em>nsqlookup</em></strong></a></li>
+<li><a href="#2-nsqd">2、<strong><em>nsqd</em></strong></a></li>
+<li><a href="#3-nsqadmin">3、<strong><em>nsqadmin</em></strong></a></li>
+</ul></li>
+<li><a href="#二-概念">二、概念</a>
+<ul>
+<li><a href="#1-topic">1、 topic</a></li>
+<li><a href="#2-channel">2、 channel</a></li>
+</ul></li>
+<li><a href="#三-测试">三 测试</a></li>
+<li><a href="#四-测试客户端代码实现">四 测试客户端代码实现</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<h1 id="nsq学习笔记-一">NSQ学习笔记（一）</h1>
+
+<hr />
+
+<p>最近需要设想为我的开源项目<a href="https://github.com/yeelone/yeetiku-mobile-rn">yeetiku-react-native</a>架一个消息系统，因为我的后端使用的是golang <a href="https://github.com/yeelone/yeetikuserver">yeetiku-server</a>, 所以我自然就想到了nsq,一个基于Go语言的分布式实时消息平台。</p>
+
+<p>以此文章来记录我的NSQ学习笔记。</p>
+
+<hr />
+
+<h2 id="一-安装">一 安装</h2>
+
+<p><a href="https://nsq.io/deployment/installing.html">&gt;&gt;&gt;&gt;&gt; 官方安装教程  NSQ Install &lt;&lt;&lt;&lt;&lt;&lt;</a></p>
+
+<p>由于我使用的是MAC ，所以安装如下:</p>
+
+<pre><code>$ brew install nsq
+</code></pre>
+
+<p>NSQ的介绍看官网就足够，在此不多说了。具体写下自己的实践过程。</p>
+
+<p>但几个重要的功能有必要记录下来：</p>
+
+<h2 id="一-组件">一、组件</h2>
+
+<h3 id="1-nsqlookup">1、<strong><em>nsqlookup</em></strong></h3>
+
+<p>nsqlookupd就是中心管理服务，它使用tcp(默认端口4160)管理nsqd服务，使用http(默认端口4161)管理nsqadmin服务。同时为客户端提供查询功能</p>
+
+<pre><code>    启动方式：➜  ~ nsqlookupd 
+</code></pre>
+
+<h3 id="2-nsqd">2、<strong><em>nsqd</em></strong></h3>
+
+<p>nsqd 是一个守护进程，负责接收，排队，投递消息给客户端</p>
+
+<p>主要负责message的收发，队列的维护。nsqd会默认监听一个tcp端口(4150)和一个http端口(4151)以及一个可选的https端口</p>
+
+<pre><code>	启动方式: ➜  ~ nsqd --lookupd-tcp-address=127.0.0.1:4160
+</code></pre>
+
+<h3 id="3-nsqadmin">3、<strong><em>nsqadmin</em></strong></h3>
+
+<p>很好理解，就是一个WEB UI 管理平台</p>
+
+<pre><code>	启动方式: ➜  ~ nsqadmin --lookupd-http-address=127.0.0.1:4161
+</code></pre>
+
+<h2 id="二-概念">二、概念</h2>
+
+<h3 id="1-topic">1、 topic</h3>
+
+<p>一个topic就是程序发布消息的一个逻辑键，当程序第一次发布消息时就会创建topic</p>
+
+<h3 id="2-channel">2、 channel</h3>
+
+<p>channel组与消费者相关，是消费者之间的负载均衡，channel在某种意义上来说是一个“队列”。每当一个发布者发送一条消息到一个topic，消息会被复制到所有消费者连接的channel上，消费者通过这个特殊的channel读取消息，实际上，在消费者第一次订阅时就会创建channel。</p>
+
+<h2 id="三-测试">三 测试</h2>
+
+<p>具体测试方式，请参考 <a href="https://nsq.io/overview/quick_start.html">官方文档 Quick Start</a></p>
+
+<p>记录一下自己的过程：</p>
+
+<pre><code>打开 shell 1 :  ~ nsqlookupd
+打开 shell 2 :  ~ nsqd --lookupd-tcp-address=127.0.0.1:4160
+打开 shell 3 :  ~ nsqadmin --lookupd-http-address=127.0.0.1:4161
+</code></pre>
+
+<p>打开 <a href="http://127.0.0.1:4171/">http://127.0.0.1:4171/</a></p>
+
+<p><img src="https://wx4.sinaimg.cn/mw690/6547935dgy1fqxd6a7311j20mn0gmjsb.jpg" alt="image" /></p>
+
+<p>创建topic &amp; channel</p>
+
+<p><img src="https://wx3.sinaimg.cn/mw690/6547935dgy1fqxd8pl1ytj20f70gft9v.jpg" alt="image" /></p>
+
+<pre><code>测试发送消息
+➜  curl -d 'hello nsq' 'http://127.0.0.1:4151/pub?topic=test&amp;channel=test_channel'
+
+我发送了6条
+</code></pre>
+
+<p><img src="https://wx4.sinaimg.cn/mw690/6547935dgy1fqxdd7iviij20rh0erabq.jpg" alt="image" /></p>
+
+<h2 id="四-测试客户端代码实现">四 测试客户端代码实现</h2>
+
+<pre><code>   go get -v -u github.com/nsqio/go-nsq
+</code></pre>
+
+<pre><code>package main
+
+import (
+	&quot;log&quot;
+
+	&quot;github.com/nsqio/go-nsq&quot;
+)
+
+func main() {
+
+	go startConsumer()
+	for {
+
+	}
+	//startProducer()
+}
+
+// 生产者
+func startProducer() {
+	// cfg := nsq.NewConfig()
+	// producer, err := nsq.NewProducer(&quot;127.0.0.1:4150&quot;, cfg)
+	// if err != nil {
+	//  log.Fatal(err)
+	// }
+	// // 发布消息
+	// for {
+	//  if err := producer.Publish(&quot;test&quot;, []byte(&quot;test message&quot;)); err != nil {
+	//      log.Fatal(&quot;publish error: &quot; + err.Error())
+	//  }
+	//  time.Sleep(1 * time.Second)
+	// }
+}
+
+// 消费者
+func startConsumer() {
+	cfg := nsq.NewConfig()
+	consumer, err := nsq.NewConsumer(&quot;test&quot;, &quot;test_channel&quot;, cfg)
+	if err != nil {
+		log.Fatal(err)
+	}
+	// 设置消息处理函数
+	consumer.AddHandler(nsq.HandlerFunc(func(message *nsq.Message) error {
+		log.Println(&quot;message body :&quot; + string(message.Body))
+		return nil
+	}))
+	// 连接到单例nsqd
+	if err := consumer.ConnectToNSQD(&quot;127.0.0.1:4150&quot;); err != nil {
+		log.Fatal(err)
+	}
+	&lt;-consumer.StopChan
+}
+
+</code></pre>
+
+<p>运行程序，并同时在终端中发送消息：</p>
+
+<pre><code>➜  nsqdata curl -d 'hello nsq ' 'http://127.0.0.1:4151/pub?topic=test&amp;channel=test_channel'
+</code></pre>
+
+<p>可以观察到消息都被消费掉了.</p>
+
+<p><strong><em>注意：如果存在消费者，则消息会马上传递给消费者，nsqd服务器不会将消息存储于内存或硬盘，而如果此时没有消息者，此消息会存储于内存或硬盘中，可以在nsqdadmin中看到数据存储于Memory + Disk中</em></strong></p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">elone</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-05-02</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="https://yeelone.github.io/tags/golang/">golang</a>
+          
+          <a href="https://yeelone.github.io/tags/nsq/">nsq</a>
+          
+          <a href="https://yeelone.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="https://yeelone.github.io/post/golang-channel-%E7%BC%93%E5%AD%98%E4%B8%8E%E6%B2%A1%E6%9C%89%E7%BC%93%E5%AD%98%E7%9A%84%E5%8C%BA%E5%88%AB/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Golang channel 缓存与没有缓存的区别</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="https://yeelone.github.io/post/mac-%E5%AE%89%E8%A3%85polipo%E5%AE%9E%E7%8E%B0%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/">
+            <span class="next-text nav-default">Mac 安装polipo实现终端代理</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'https-yeelone-github-io';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:yljckh@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://www.facebook.com/bryan.jiang.357" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="https://plus.google.com/&#43;yeelone" class="iconfont icon-google" title="google"></a>
+      <a href="https://github.com/yeelone" class="iconfont icon-github" title="github"></a>
+  <a href="https://yeelone.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">elone</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="https://yeelone.github.io/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="https://yeelone.github.io/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="https://yeelone.github.io/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="https://yeelone.github.io/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+<script type="text/javascript" src="https://yeelone.github.io/dist/even.min.js?v=3.0.1"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

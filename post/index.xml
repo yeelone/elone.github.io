@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Elone Pages</title>
+    <link>https://yeelone.github.io/post/</link>
+    <description>Recent content in Posts on Elone Pages</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Thu, 07 Jun 2018 22:23:30 +0800</lastBuildDate>
+    
+	<atom:link href="https://yeelone.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>使用正则表达式处理题库文本的Golang实现</title>
+      <link>https://yeelone.github.io/post/%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%A4%84%E7%90%86%E9%A2%98%E5%BA%93%E6%96%87%E6%9C%AC%E7%9A%84golang%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Thu, 07 Jun 2018 22:23:30 +0800</pubDate>
+      
+      <guid>https://yeelone.github.io/post/%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%A4%84%E7%90%86%E9%A2%98%E5%BA%93%E6%96%87%E6%9C%AC%E7%9A%84golang%E5%AE%9E%E7%8E%B0/</guid>
+      <description>##前言 &amp;gt; 由于企业内部的一些考试需要，有些同事要时常通过一个word格式的题库文件来查询相应题目，但在手机上用word进行查询，总觉得操作上</description>
+    </item>
+    
+    <item>
+      <title>Next.js 初体验</title>
+      <link>https://yeelone.github.io/post/next.js-%E5%88%9D%E4%BD%93%E9%AA%8C/</link>
+      <pubDate>Tue, 08 May 2018 15:44:29 +0800</pubDate>
+      
+      <guid>https://yeelone.github.io/post/next.js-%E5%88%9D%E4%BD%93%E9%AA%8C/</guid>
+      <description>#Next.js 初体验 安装 Next.js $ yarn add next react react-dom $ yarn run dev //运行查看是否成功 ##配置 typescript &amp;amp;&amp;amp; less $ yarn add @zeit/next-typescript @zeit/next-less typescript less ###创建 next.config.js // next.config.js const withTypescript = require(&#39;@zeit/next-typescript&#39;) const ForkTsCheckerWebpackPlugin = require(&#39;fork-ts-checker-webpack-plugin&#39;) module.exports = withTypescript({ webpack(config, options) { // Do not run type checking twice:</description>
+    </item>
+    
+    <item>
+      <title>Golang channel 缓存与没有缓存的区别</title>
+      <link>https://yeelone.github.io/post/golang-channel-%E7%BC%93%E5%AD%98%E4%B8%8E%E6%B2%A1%E6%9C%89%E7%BC%93%E5%AD%98%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+      <pubDate>Wed, 02 May 2018 23:16:10 +0800</pubDate>
+      
+      <guid>https://yeelone.github.io/post/golang-channel-%E7%BC%93%E5%AD%98%E4%B8%8E%E6%B2%A1%E6%9C%89%E7%BC%93%E5%AD%98%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+      <description>#Golang channel 缓存与没有缓存的区别 之前一直对golang的channel有一个疑问，带不带缓存有什么样的区别？ 在这里用一个简单的代码来记录下这个区别：</description>
+    </item>
+    
+    <item>
+      <title>NSQ学习笔记（一）</title>
+      <link>https://yeelone.github.io/post/nsq%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/</link>
+      <pubDate>Wed, 02 May 2018 23:16:10 +0800</pubDate>
+      
+      <guid>https://yeelone.github.io/post/nsq%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/</guid>
+      <description>NSQ学习笔记（一） 最近需要设想为我的开源项目yeetiku-react-native架一个消息系统，因为我的后端使用的是golang yeetiku-server, 所以</description>
+    </item>
+    
+    <item>
+      <title>Mac 安装polipo实现终端代理</title>
+      <link>https://yeelone.github.io/post/mac-%E5%AE%89%E8%A3%85polipo%E5%AE%9E%E7%8E%B0%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Mon, 30 Apr 2018 18:44:29 +0800</pubDate>
+      
+      <guid>https://yeelone.github.io/post/mac-%E5%AE%89%E8%A3%85polipo%E5%AE%9E%E7%8E%B0%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/</guid>
+      <description>Mac 安装polipo实现终端代理 一直用shadowsock，但go get 不支持sock5，所以需要借用polipo来实现终端代理 polipo 安装 ✗ brew install polipo po</description>
+    </item>
+    
+    <item>
+      <title>简单理解RSA非对称加密演算法</title>
+      <link>https://yeelone.github.io/post/%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3rsa-%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Mon, 30 Apr 2018 17:44:29 +0800</pubDate>
+      
+      <guid>https://yeelone.github.io/post/%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3rsa-%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95/</guid>
+      <description>RSA 非对称加密 用户A 〈 &amp;mdash;&amp;ndash; 〉 用户B 第一步， 算出公钥私钥 1 找出质数 p, q 2 n = p * q 3 f(n) = (p-1)(q-1)欧拉函数 4 算出公钥 e : 1 &amp;lt; e &amp;lt; f(n) 之间的</description>
+    </item>
+    
+    <item>
+      <title>升级到dva2之后，记录一下遇到的问题与解决方法</title>
+      <link>https://yeelone.github.io/post/%E5%8D%87%E7%BA%A7%E5%88%B0dva2%E4%B9%8B%E5%90%8E%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Wed, 21 Mar 2018 22:44:29 +0800</pubDate>
+      
+      <guid>https://yeelone.github.io/post/%E5%8D%87%E7%BA%A7%E5%88%B0dva2%E4%B9%8B%E5%90%8E%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
+      <description>升级到dva2之后，记录一下遇到的问题与解决方法 1、路由改动 import React from &#39;react&#39; import PropTypes from &#39;prop-types&#39; import { Router, Route, IndexRoute } from &#39;dva/router&#39; import AdminApp from &#39;./routes/app&#39; const cached = {} const registerModel = (app, model) =&amp;gt; { if (!cached[model.namespace]) { app.model(model) cached[model.namespace] = 1 } }</description>
+    </item>
+    
+    <item>
+      <title>React Native Easy Comments</title>
+      <link>https://yeelone.github.io/post/react-native-easy-comments/</link>
+      <pubDate>Sun, 04 Mar 2018 19:22:49 +0800</pubDate>
+      
+      <guid>https://yeelone.github.io/post/react-native-easy-comments/</guid>
+      <description>分享自己的第一个NPM包 react-native-easy-comments 截图示例 expo扫码体验： ～demo文件夹里是一个完整的expo项目，可以导入expo运行查看效果与修改。 react-native-easy-comments 是一个</description>
+    </item>
+    
+  </channel>
+</rss>

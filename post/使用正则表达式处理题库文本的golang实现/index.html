@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>使用正则表达式处理题库文本的Golang实现 - Elone Pages</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="elone" />
+  <meta name="description" content="##前言 &amp;gt; 由于企业内部的一些考试需要，有些同事要时常通过一个word格式的题库文件来查询相应题目，但在手机上用word进行查询，总觉得操作上" />
+
+  <meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.42-DEV" />
+
+
+<link rel="canonical" href="https://yeelone.github.io/post/%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%A4%84%E7%90%86%E9%A2%98%E5%BA%93%E6%96%87%E6%9C%AC%E7%9A%84golang%E5%AE%9E%E7%8E%B0/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="https://yeelone.github.io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://yeelone.github.io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://yeelone.github.io/favicon-16x16.png">
+<link rel="manifest" href="https://yeelone.github.io/manifest.json">
+<link rel="mask-icon" href="https://yeelone.github.io/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="https://yeelone.github.io/dist/even.min.css?v=3.0.1" rel="stylesheet">
+<link href="https://yeelone.github.io/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="使用正则表达式处理题库文本的Golang实现" />
+<meta property="og:description" content="##前言 &gt; 由于企业内部的一些考试需要，有些同事要时常通过一个word格式的题库文件来查询相应题目，但在手机上用word进行查询，总觉得操作上" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yeelone.github.io/post/%E4%BD%BF%E7%94%A8%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%A4%84%E7%90%86%E9%A2%98%E5%BA%93%E6%96%87%E6%9C%AC%E7%9A%84golang%E5%AE%9E%E7%8E%B0/" />
+
+
+
+<meta property="article:published_time" content="2018-06-07T22:23:30&#43;08:00"/>
+
+<meta property="article:modified_time" content="2018-06-07T22:23:30&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="使用正则表达式处理题库文本的Golang实现">
+<meta itemprop="description" content="##前言 &gt; 由于企业内部的一些考试需要，有些同事要时常通过一个word格式的题库文件来查询相应题目，但在手机上用word进行查询，总觉得操作上">
+
+
+<meta itemprop="datePublished" content="2018-06-07T22:23:30&#43;08:00" />
+<meta itemprop="dateModified" content="2018-06-07T22:23:30&#43;08:00" />
+<meta itemprop="wordCount" content="1877">
+
+
+
+<meta itemprop="keywords" content="golang,kotlin,android,正则表达式," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="使用正则表达式处理题库文本的Golang实现"/>
+<meta name="twitter:description" content="##前言 &gt; 由于企业内部的一些考试需要，有些同事要时常通过一个word格式的题库文件来查询相应题目，但在手机上用word进行查询，总觉得操作上"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="https://yeelone.github.io/" class="logo">Elone</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="https://yeelone.github.io/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="https://yeelone.github.io/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="https://yeelone.github.io/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="https://yeelone.github.io/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="https://yeelone.github.io/" class="logo">Elone</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">使用正则表达式处理题库文本的Golang实现</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-06-07 </span>
+        <div class="post-category">
+            
+              <a href="https://yeelone.github.io/categories/golang/"> golang </a>
+            
+              <a href="https://yeelone.github.io/categories/kotlin/"> kotlin </a>
+            
+              <a href="https://yeelone.github.io/categories/android/"> Android </a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#第一步-使用正则表达式解析文件-并拆分出题干-选项-答案几个元素-再分别存入数据库里">第一步，使用正则表达式解析文件，并拆分出题干，选项，答案几个元素，再分别存入数据库里。</a></li>
+<li><a href="#第二步-实现android-app">第二步，实现Android App</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<p>##前言
+&gt; 由于企业内部的一些考试需要，有些同事要时常通过一个word格式的题库文件来查询相应题目，但在手机上用word进行查询，总觉得操作上不方便。借着这个契机，应用Golang和Kotlin开发了一个小工具，方便同事可快捷的查询题目。</p>
+
+<p>写这篇文章也算是做个复习吧，因为不知道什么时候就会又一次忘了怎么写正则了。</p>
+
+<p><del>虽然上面说了那么多，其实就是想帮同事作弊</del>   ლ(╹◡╹ლ)</p>
+
+<p>##题库文件参考</p>
+
+<p>以下是我的题库文件，可参考：
+tiku.txt</p>
+
+<pre><code>
+单选题： (共912小题，总分：1分)
+
+1 . （ ）是银行网点直接和顾客接触的员工，因此在客户建立对银行网点第一印象、维持良好的银行网点服务形象方面起着重要作用 （1.50分）
+A　网点负责人
+B　大堂经理
+C　柜员
+D　客户经理
+标准答案 ：C
+试题解析 ：
+1,065 . 柜员柜面营销与柜面服务包括 （2分）
+A　负责业务办理间隙识别优质客户的工作，并将客户引导到最合适的服务渠道
+B　保持头、脸、手、着装、修整、饰物的清洁、规范，保持职业化服务形象
+C　执行站姿挺拔、坐姿端庄、行姿规范、行为检点、微笑亲和、致意得体、道歉真诚的服务要求，保持良好服务行为
+D　执行声音亲和、语句清晰、措辞客气、表达明了、称呼准确、问候得体、适当寒暄的服务语言规范
+E　负责详细记录客户信息，聆听、发现客户真实需求，为下一步客户经理的关系维护打下基础
+标准答案 ：A B C D E
+试题解析 ：
+1,480 . 根据我社其它物品管理的规定，对于印章和钥匙，对应的调拨机构为上级管理机构，而假币上缴的对应上级机构为现金管理（分）中心。 （1分）
+正确
+错误
+标准答案 ：正确
+
+</code></pre>
+
+<p>需求就是将这个文件，保存进数据库里，</p>
+
+<h3 id="第一步-使用正则表达式解析文件-并拆分出题干-选项-答案几个元素-再分别存入数据库里">第一步，使用正则表达式解析文件，并拆分出题干，选项，答案几个元素，再分别存入数据库里。</h3>
+
+<p>正则我用Golang实现，数据库用sqlite ,因为最后这个数据库是要给Android用的。</p>
+
+<p>一： 先分析题干部分:
+&gt; 1 . （ ）是银行网点直接和顾客接触的员工，因此在客户建立对银行网点第一印象、维持良好的银行网点服务形象方面起着重要作用 （1.50分）</p>
+
+<p>可分为三个部分来解析</p>
+
+<p>1) 题序：<strong>[ 1 . ]</strong></p>
+
+<p>正则表达：</p>
+
+<pre><code>完整的正则： ^\s*?(?P&lt;index&gt;\d+,*?\d*?\s*?\.)\s*?
+
+^\s*? 表示以0或1个以上的空格开头 ,^表示匹配开头
+
+(?P&lt;index&gt;) 是golang的分组语法，在这里不用理会
+
+\d+,*?\d*?\s*?\.
+\d+ ： 表示1个以上的数字
+,*? :  0或1个逗号 ， 因文本里的题序格式类似这样： 1,234 ，这个正则不支持 1,234,567 ，因为我觉得不太可能需要那么大的数
+\d*? : 表示0个以上的数字
+\s*?\. : 若干空格并以 . 结束
+</code></pre>
+
+<p>Golang 实现：</p>
+
+<pre><code>func findSubject(line string) (result bool, s string) {
+	reg := regexp.MustCompile(`^\s*?(?P&lt;index&gt;\d+,*?\d*?\s*?\.)\s*?(?P&lt;subject&gt;.*)(?P&lt;score&gt;\s*?（.*分）)$`)
+	matches := reg.FindStringSubmatch(line)
+	if len(matches) &gt; 0 {
+		return true, matches[2]
+	}
+	return false, &quot;&quot;
+}
+</code></pre>
+
+<p>2) 题干正文 : <strong>[（ ）是银行网点直接和顾客接触的员工，因此在客户建立对银行网点第一印象、维持良好的银行网点服务形象方面起着重要作用 ]</strong></p>
+
+<pre><code>分析题干需要同时配合结尾来进行解析，可以明显的看到，每道题都以（1.50分）这样的格式结尾
+
+(?P&lt;subject&gt;.*)(?P&lt;score&gt;\s*?（.*分）)$
+</code></pre>
+
+<p>二： 分析选项：</p>
+
+<pre><code>	^\s?(?P&lt;index&gt;[A-Z]\s?)\s?(?P&lt;content&gt;.*)
+	选项总是以字母开头，所以用 [A-Z] 匹配即可。
+</code></pre>
+
+<p>Golang 实现：</p>
+
+<pre><code>func findOptions(line string) (result bool, s string) {
+	//判断选择题
+	reg := regexp.MustCompile(`^\s?(?P&lt;index&gt;[A-Z]\s?)\s?(?P&lt;content&gt;.*)`)
+	matches := reg.FindStringSubmatch(line)
+	if len(matches) &gt; 0 {
+		return true, line
+	}
+
+	reg = regexp.MustCompile(`^(正确)|^(错误)`) //这里需要注意，判断题并不是以[A-Z]开头的。
+	matches = reg.FindStringSubmatch(line)
+
+	if len(matches) &gt; 0 {
+		return true, matches[0]
+	}
+
+	return false, &quot;&quot;
+}
+</code></pre>
+
+<p>分析答案就太简单了：</p>
+
+<pre><code>func findAnswer(line string) (result bool, s string) {
+	matched, _ := regexp.MatchString(`^(标准答案 ：)`, line)
+	if matched {
+		return true, line
+	}
+	return false, &quot;&quot;
+}
+</code></pre>
+
+<p>不多说了，最后就是保存进sqlite了</p>
+
+<pre><code>func saveToDB() {
+	db, err := sql.Open(&quot;sqlite3&quot;, &quot;./yee.db&quot;)
+	checkErr(err)
+
+	for _, q := range questionList {
+		stmt, err := db.Prepare(`INSERT INTO question(subject, options, answer) values(?,?,?)`)
+		checkErr(err)
+
+		res, err := stmt.Exec(q.Subject, strings.Join(q.Options, &quot;||&quot;), q.Answer) //选项之间用 || 分隔即可，简单处理
+		checkErr(err)
+		id, err := res.LastInsertId()
+
+		checkErr(err)
+
+		fmt.Println(id)
+	}
+}
+
+</code></pre>
+
+<p><img src="https://wx3.sinaimg.cn/mw690/6547935dgy1fs2z37h8nhj20tb0ilte8.jpg" alt="image" /></p>
+
+<p>完整代码请参考Gayhub: <a href="https://github.com/yeelone/bankolin-demo">https://github.com/yeelone/bankolin-demo</a></p>
+
+<h3 id="第二步-实现android-app">第二步，实现Android App</h3>
+
+<p>将第一步生成的 yee.db 数据库文件放进新建的Android项目里，目录为 src/main/res/raw ，</p>
+
+<p>接着我们需要在APP启动时，将yee.db文件拷进android的数据文件地址</p>
+
+<p>先实现一个Helper类并为context进行扩展：</p>
+
+<pre><code class="language-kotlin">package com.example.elone.myapplication
+
+import android.content.Context
+import android.database.sqlite.SQLiteDatabase
+import org.jetbrains.anko.db.ManagedSQLiteOpenHelper
+
+class DatabaseHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, &quot;yee.db&quot;, null, 1) {
+    companion object {
+        private var instance: DatabaseHelper? = null
+
+        @Synchronized
+        fun Instance(context: Context): DatabaseHelper {
+            if (instance == null) {
+                instance = DatabaseHelper(context.applicationContext)
+            }
+            return instance!!
+        }
+    }
+
+    override fun onCreate(database: SQLiteDatabase) {
+    }
+
+    override fun onUpgrade(database: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
+    }
+}
+
+val Context.database: DatabaseHelper
+    get() = DatabaseHelper.Instance(applicationContext)
+</code></pre>
+
+<p>再接着回到MainActivity</p>
+
+<pre><code class="language-kotlin">private fun importDatabase() {
+        // 存放数据库的目录
+        var dirPath = &quot;/data/data/&quot;+PACKAGE_NAME+&quot;/databases&quot;
+        var dir = File(dirPath)
+        if (!dir.exists()) {
+            dir.mkdir()
+        }
+        // 数据库文件
+        var file = File(dir, &quot;yee.db&quot;)
+        try {
+            if (!file.exists()) {
+                file.createNewFile()
+            }
+            // 加载需要导入的数据库
+            var instream: InputStream = this.applicationContext.resources.openRawResource(R.raw.yee)
+            var fos = FileOutputStream(file)
+            var buffer  = ByteArray(instream.available())
+            instream.read(buffer)
+            fos.write(buffer)
+            instream.close()
+            fos.close()
+        } catch ( e: FileNotFoundException) {
+            e.printStackTrace()
+        }
+    }
+</code></pre>
+
+<p>anko sqlite 查询语法</p>
+
+<pre><code>    private fun searchQuestion() {
+        val editText = findViewById&lt;EditText&gt;(R.id.searchText)
+        val rows = database.use {
+            select(&quot;question&quot;)
+                    .whereSimple(&quot;(subject like '%&quot;+editText.text+&quot;%') &quot;)
+                    .exec {
+                        parseList(classParser&lt;Question&gt;())
+                    }
+        }
+
+        mListView.adapter = MainAdapter(rows)
+    }
+</code></pre>
+
+<p><img src="https://wx2.sinaimg.cn/mw690/6547935dgy1fs2z6ovwmlj20bt0jf781.jpg" alt="image" /></p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">elone</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-06-07</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="https://yeelone.github.io/tags/golang/">golang</a>
+          
+          <a href="https://yeelone.github.io/tags/kotlin/">kotlin</a>
+          
+          <a href="https://yeelone.github.io/tags/android/">android</a>
+          
+          <a href="https://yeelone.github.io/tags/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">正则表达式</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+        
+          <a class="next" href="https://yeelone.github.io/post/next.js-%E5%88%9D%E4%BD%93%E9%AA%8C/">
+            <span class="next-text nav-default">Next.js 初体验</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'https-yeelone-github-io';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:yljckh@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://www.facebook.com/bryan.jiang.357" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="https://plus.google.com/&#43;yeelone" class="iconfont icon-google" title="google"></a>
+      <a href="https://github.com/yeelone" class="iconfont icon-github" title="github"></a>
+  <a href="https://yeelone.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">elone</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="https://yeelone.github.io/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="https://yeelone.github.io/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="https://yeelone.github.io/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="https://yeelone.github.io/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+<script type="text/javascript" src="https://yeelone.github.io/dist/even.min.js?v=3.0.1"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

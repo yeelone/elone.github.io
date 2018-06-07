@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>React on Elone Pages</title>
+    <link>https://yeelone.github.io/categories/react/</link>
+    <description>Recent content in React on Elone Pages</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Wed, 21 Mar 2018 22:44:29 +0800</lastBuildDate>
+    
+	<atom:link href="https://yeelone.github.io/categories/react/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>升级到dva2之后，记录一下遇到的问题与解决方法</title>
+      <link>https://yeelone.github.io/post/%E5%8D%87%E7%BA%A7%E5%88%B0dva2%E4%B9%8B%E5%90%8E%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</link>
+      <pubDate>Wed, 21 Mar 2018 22:44:29 +0800</pubDate>
+      
+      <guid>https://yeelone.github.io/post/%E5%8D%87%E7%BA%A7%E5%88%B0dva2%E4%B9%8B%E5%90%8E%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</guid>
+      <description>升级到dva2之后，记录一下遇到的问题与解决方法 1、路由改动 import React from &#39;react&#39; import PropTypes from &#39;prop-types&#39; import { Router, Route, IndexRoute } from &#39;dva/router&#39; import AdminApp from &#39;./routes/app&#39; const cached = {} const registerModel = (app, model) =&amp;gt; { if (!cached[model.namespace]) { app.model(model) cached[model.namespace] = 1 } }</description>
+    </item>
+    
+  </channel>
+</rss>

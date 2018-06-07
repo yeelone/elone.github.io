@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>升级到dva2之后，记录一下遇到的问题与解决方法 - Elone Pages</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="elone" />
+  <meta name="description" content="升级到dva2之后，记录一下遇到的问题与解决方法 1、路由改动 import React from &#39;react&#39; import PropTypes from &#39;prop-types&#39; import { Router, Route, IndexRoute } from &#39;dva/router&#39; import AdminApp from &#39;./routes/app&#39; const cached = {} const registerModel = (app, model) =&amp;gt; { if (!cached[model.namespace]) { app.model(model) cached[model.namespace] = 1 } }" />
+
+  <meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.42-DEV" />
+
+
+<link rel="canonical" href="https://yeelone.github.io/post/%E5%8D%87%E7%BA%A7%E5%88%B0dva2%E4%B9%8B%E5%90%8E%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="https://yeelone.github.io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://yeelone.github.io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://yeelone.github.io/favicon-16x16.png">
+<link rel="manifest" href="https://yeelone.github.io/manifest.json">
+<link rel="mask-icon" href="https://yeelone.github.io/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="https://yeelone.github.io/dist/even.min.css?v=3.0.1" rel="stylesheet">
+<link href="https://yeelone.github.io/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="升级到dva2之后，记录一下遇到的问题与解决方法" />
+<meta property="og:description" content="升级到dva2之后，记录一下遇到的问题与解决方法 1、路由改动 import React from &#39;react&#39; import PropTypes from &#39;prop-types&#39; import { Router, Route, IndexRoute } from &#39;dva/router&#39; import AdminApp from &#39;./routes/app&#39; const cached = {} const registerModel = (app, model) =&gt; { if (!cached[model.namespace]) { app.model(model) cached[model.namespace] = 1 } }" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yeelone.github.io/post/%E5%8D%87%E7%BA%A7%E5%88%B0dva2%E4%B9%8B%E5%90%8E%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" />
+
+
+
+<meta property="article:published_time" content="2018-03-21T22:44:29&#43;08:00"/>
+
+<meta property="article:modified_time" content="2018-03-21T22:44:29&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="升级到dva2之后，记录一下遇到的问题与解决方法">
+<meta itemprop="description" content="升级到dva2之后，记录一下遇到的问题与解决方法 1、路由改动 import React from &#39;react&#39; import PropTypes from &#39;prop-types&#39; import { Router, Route, IndexRoute } from &#39;dva/router&#39; import AdminApp from &#39;./routes/app&#39; const cached = {} const registerModel = (app, model) =&gt; { if (!cached[model.namespace]) { app.model(model) cached[model.namespace] = 1 } }">
+
+
+<meta itemprop="datePublished" content="2018-03-21T22:44:29&#43;08:00" />
+<meta itemprop="dateModified" content="2018-03-21T22:44:29&#43;08:00" />
+<meta itemprop="wordCount" content="380">
+
+
+
+<meta itemprop="keywords" content="dva2,react,redux," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="升级到dva2之后，记录一下遇到的问题与解决方法"/>
+<meta name="twitter:description" content="升级到dva2之后，记录一下遇到的问题与解决方法 1、路由改动 import React from &#39;react&#39; import PropTypes from &#39;prop-types&#39; import { Router, Route, IndexRoute } from &#39;dva/router&#39; import AdminApp from &#39;./routes/app&#39; const cached = {} const registerModel = (app, model) =&gt; { if (!cached[model.namespace]) { app.model(model) cached[model.namespace] = 1 } }"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="https://yeelone.github.io/" class="logo">Elone</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="https://yeelone.github.io/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="https://yeelone.github.io/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="https://yeelone.github.io/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="https://yeelone.github.io/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="https://yeelone.github.io/" class="logo">Elone</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">升级到dva2之后，记录一下遇到的问题与解决方法</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-03-21 </span>
+        <div class="post-category">
+            
+              <a href="https://yeelone.github.io/categories/react/"> react </a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#升级到dva2之后-记录一下遇到的问题与解决方法">升级到dva2之后，记录一下遇到的问题与解决方法</a>
+<ul>
+<li>
+<ul>
+<li><a href="#1-路由改动">1、路由改动</a></li>
+<li><a href="#2-model-改动">2、 model 改动</a></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<h3 id="升级到dva2之后-记录一下遇到的问题与解决方法">升级到dva2之后，记录一下遇到的问题与解决方法</h3>
+
+<h5 id="1-路由改动">1、路由改动</h5>
+
+<pre><code class="language-javascript">import React from 'react'
+import PropTypes from 'prop-types'
+import { Router, Route, IndexRoute } from 'dva/router'
+import AdminApp from './routes/app'
+
+ const cached = {}
+ const registerModel = (app, model) =&gt; {
+   if (!cached[model.namespace]) {
+     app.model(model)
+     cached[model.namespace] = 1
+   }
+}
+ 
+ const Routers = function ({ history, app }) {
+   const routes = [
+     {
+       path: '/admin',
+       component: AdminApp,
+       getIndexRoute (nextState, cb) {
+         require.ensure([], require =&gt; {
+           cb(null, { component: require('./routes/dashboard/') })
+         }, 'dashboard')
+       },
+   ]
+
+   return &lt;Router history={history} routes={routes} /&gt;
+ }
+     
+</code></pre>
+
+<p>改成：</p>
+
+<pre><code class="language-javascript">import React from 'react'
+import PropTypes from 'prop-types'
+import { Router, Switch, Route } from 'dva/router' 
+import dynamic from 'dva/dynamic' 
+
+function RouterConfig({ history, app }) {
+  const IndexPage = dynamic({
+         app,
+         component: () =&gt; require('./routes/app'),
+       }) 
+
+  const Dashboard = dynamic({
+    app,
+    component: () =&gt; require('./routes/dashboard/'),
+  }) 
+ })
+ 
+ return (
+        &lt;Router history={history}&gt;
+          &lt;Switch&gt;
+            &lt;Route exact path=&quot;/&quot; component={IndexPage} /&gt;
+            &lt;Route exact path=&quot;/admin/dashboard&quot; component={Dashboard} /&gt;
+          &lt;/Switch&gt;
+        &lt;/Router&gt;
+      ) 
+} 
+</code></pre>
+
+<h5 id="2-model-改动">2、 model 改动</h5>
+
+<p>由：</p>
+
+<pre><code class="language-javascript">subscriptions: {
+    setup ({ dispatch, history }) {
+      history.listen(location =&gt; {
+        if (location.pathname === '/admin/questions'  ) {
+          dispatch({
+            type: 'query',
+            payload: location.query,
+          })
+        }
+      })
+    },
+  },
+</code></pre>
+
+<pre><code class="language-javascript"> subscriptions: {
+    setup ({ dispatch, history }) {
+      history.listen( ({pathname,search}) =&gt; {
+        var query = queryString.parse(search)
+
+        if (pathname === '/admin/questions'  ) {
+          dispatch({
+            type: 'query',
+            payload: query,
+          })
+        }
+      })
+    },
+  },
+  
+</code></pre>
+
+<p>3、 routerRedux.push进行跳转无法传参</p>
+
+<pre><code class="language-javascript">onPageChange (page) {
+      dispatch(routerRedux.push({
+        pathname,
+        query: {
+          ...query,
+          page: page.current,
+          pageSize: page.pageSize
+        },
+      }))
+    },
+    
+</code></pre>
+
+<p>具体改动内容请参考：<a href="https://github.com/ReactTraining/history/blob/v3/docs/Location.md">https://github.com/ReactTraining/history/blob/v3/docs/Location.md</a></p>
+
+<pre><code class="language-javascript"> onPageChange (page) {
+       var query = {
+            ...queryString.parse(location.search),
+            page: page.current,
+            pageSize: page.pageSize
+        }
+        dispatch(routerRedux.push({
+            ...location,
+            search:'?'+queryString.stringify(query),
+        }))
+    },
+</code></pre>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">elone</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-03-21</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="https://yeelone.github.io/tags/dva2/">dva2</a>
+          
+          <a href="https://yeelone.github.io/tags/react/">react</a>
+          
+          <a href="https://yeelone.github.io/tags/redux/">redux</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="https://yeelone.github.io/post/%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3rsa-%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">简单理解RSA非对称加密演算法</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="https://yeelone.github.io/post/react-native-easy-comments/">
+            <span class="next-text nav-default">React Native Easy Comments</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'https-yeelone-github-io';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:yljckh@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://www.facebook.com/bryan.jiang.357" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="https://plus.google.com/&#43;yeelone" class="iconfont icon-google" title="google"></a>
+      <a href="https://github.com/yeelone" class="iconfont icon-github" title="github"></a>
+  <a href="https://yeelone.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">elone</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="https://yeelone.github.io/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="https://yeelone.github.io/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="https://yeelone.github.io/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="https://yeelone.github.io/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+<script type="text/javascript" src="https://yeelone.github.io/dist/even.min.js?v=3.0.1"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

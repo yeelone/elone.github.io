@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>简单理解RSA非对称加密演算法 - Elone Pages</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="elone" />
+  <meta name="description" content="RSA 非对称加密 用户A 〈 &amp;mdash;&amp;ndash; 〉 用户B 第一步， 算出公钥私钥 1 找出质数 p, q 2 n = p * q 3 f(n) = (p-1)(q-1)欧拉函数 4 算出公钥 e : 1 &amp;lt; e &amp;lt; f(n) 之间的" />
+
+  <meta name="keywords" content="Hugo, theme, even" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.42-DEV" />
+
+
+<link rel="canonical" href="https://yeelone.github.io/post/%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3rsa-%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95/" />
+
+<link rel="apple-touch-icon" sizes="180x180" href="https://yeelone.github.io/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://yeelone.github.io/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="https://yeelone.github.io/favicon-16x16.png">
+<link rel="manifest" href="https://yeelone.github.io/manifest.json">
+<link rel="mask-icon" href="https://yeelone.github.io/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+
+
+
+
+<link href="https://yeelone.github.io/dist/even.min.css?v=3.0.1" rel="stylesheet">
+<link href="https://yeelone.github.io/lib/fancybox/jquery.fancybox-3.1.20.min.css" rel="stylesheet">
+
+
+
+
+<meta property="og:title" content="简单理解RSA非对称加密演算法" />
+<meta property="og:description" content="RSA 非对称加密 用户A 〈 &mdash;&ndash; 〉 用户B 第一步， 算出公钥私钥 1 找出质数 p, q 2 n = p * q 3 f(n) = (p-1)(q-1)欧拉函数 4 算出公钥 e : 1 &lt; e &lt; f(n) 之间的" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://yeelone.github.io/post/%E7%AE%80%E5%8D%95%E7%90%86%E8%A7%A3rsa-%E9%9D%9E%E5%AF%B9%E7%A7%B0%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95/" />
+
+
+
+<meta property="article:published_time" content="2018-04-30T17:44:29&#43;08:00"/>
+
+<meta property="article:modified_time" content="2018-04-30T17:44:29&#43;08:00"/>
+
+
+
+
+
+
+
+
+
+
+
+<meta itemprop="name" content="简单理解RSA非对称加密演算法">
+<meta itemprop="description" content="RSA 非对称加密 用户A 〈 &mdash;&ndash; 〉 用户B 第一步， 算出公钥私钥 1 找出质数 p, q 2 n = p * q 3 f(n) = (p-1)(q-1)欧拉函数 4 算出公钥 e : 1 &lt; e &lt; f(n) 之间的">
+
+
+<meta itemprop="datePublished" content="2018-04-30T17:44:29&#43;08:00" />
+<meta itemprop="dateModified" content="2018-04-30T17:44:29&#43;08:00" />
+<meta itemprop="wordCount" content="396">
+
+
+
+<meta itemprop="keywords" content="RSA,安全," />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="简单理解RSA非对称加密演算法"/>
+<meta name="twitter:description" content="RSA 非对称加密 用户A 〈 &mdash;&ndash; 〉 用户B 第一步， 算出公钥私钥 1 找出质数 p, q 2 n = p * q 3 f(n) = (p-1)(q-1)欧拉函数 4 算出公钥 e : 1 &lt; e &lt; f(n) 之间的"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="https://yeelone.github.io/" class="logo">Elone</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="https://yeelone.github.io/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="https://yeelone.github.io/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="https://yeelone.github.io/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="https://yeelone.github.io/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a>
+  </ul>
+</nav>
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="https://yeelone.github.io/" class="logo">Elone</a>
+</div>
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://yeelone.github.io/categories/">Categories</a>
+      </li>
+  </ul>
+</nav>
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">简单理解RSA非对称加密演算法</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-04-30 </span>
+        <div class="post-category">
+            
+              <a href="https://yeelone.github.io/categories/tool/"> tool </a>
+            
+          </div>
+        
+        
+      </div>
+    </header>
+
+    
+    
+<div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li>
+<ul>
+<li><a href="#rsa-非对称加密">RSA 非对称加密</a>
+<ul>
+<li><a href="#第一步-算出公钥私钥">第一步， 算出公钥私钥</a></li>
+<li><a href="#第二步-加密明文">第二步，加密明文</a></li>
+<li><a href="#第三步-解密密文">第三步， 解密密文</a></li>
+<li><a href="#第四步-安全性如何呢">第四步，安全性如何呢？</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#传播-n-e-c-用户b">| 传播 | n , e , c |  用户B |</a></li>
+<li><a href="#解密-n-d-c-用户a">| 解密 | n , d , c |  用户A |</a></li>
+</ul></li>
+</ul>
+</nav>
+  </div>
+</div>
+
+    
+    <div class="post-content">
+      
+
+<h3 id="rsa-非对称加密">RSA 非对称加密</h3>
+
+<p>用户A 〈 &mdash;&ndash; 〉 用户B</p>
+
+<h4 id="第一步-算出公钥私钥">第一步， 算出公钥私钥</h4>
+
+<p>1 找出质数 p, q</p>
+
+<p>2 n = p * q</p>
+
+<p>3 f(n) = (p-1)(q-1)欧拉函数</p>
+
+<p>4 算出公钥 e : 1 &lt; e &lt; f(n) 之间的一个整数</p>
+
+<p>5  e  和 f(n) 之间要互质</p>
+
+<p>6 算出私钥 d :</p>
+
+<pre><code>  e * d 除以 f(n) 余数为 1
+</code></pre>
+
+<h4 id="第二步-加密明文">第二步，加密明文</h4>
+
+<p>明文为 m  ，</p>
+
+<pre><code> m^e 除以 n , 求余数 c ,c 即为密文
+</code></pre>
+
+<h4 id="第三步-解密密文">第三步， 解密密文</h4>
+
+<p>c ^d 除以n 求余数 m ,同即为明文</p>
+
+<h4 id="第四步-安全性如何呢">第四步，安全性如何呢？</h4>
+
+<p>经历以上几个步骤之后，在网络中传播的有以下几个因素：</p>
+
+<hr />
+
+<h2 id="传播-n-e-c-用户b">| 传播 | n , e , c |  用户B |</h2>
+
+<h2 id="解密-n-d-c-用户a">| 解密 | n , d , c |  用户A |</h2>
+
+<p>由于d ，即私钥只有用户A知道，所以只有用户A可以解密出明文。</p>
+
+<p>疑问： 能不能从 e 公钥来推导出 d 私钥呢？</p>
+
+<p>答： 回顾以上第一步， 要知道 d , 首先要知道f(n),而求f(n),必须要知道p, q</p>
+
+<pre><code>       f(n)
+e ---------------&gt; d 
+
+n = p * q 
+</code></pre>
+
+<p>RSA常用的是一个1024位二进制数 n , 想对它进行质因数分解以目前的技术算力来说，是算不出来的。</p>
+
+<p>不过随着量子计算机的出现，RSA加密算法即将失去它的作用。</p>
+
+<p><a href="https://zh.wikipedia.org/wiki/RSA%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95#%E5%85%AC%E9%92%A5%E4%B8%8E%E7%A7%81%E9%92%A5%E7%9A%84%E4%BA%A7%E7%94%9F">参考维基百科</a></p>
+
+    </div>
+
+    
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">elone</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">2018-04-30</span>
+  </p>
+  
+  
+</div>
+
+    
+    
+
+    <footer class="post-footer">
+      <div class="post-tags">
+          
+          <a href="https://yeelone.github.io/tags/rsa/">RSA</a>
+          
+          <a href="https://yeelone.github.io/tags/%E5%AE%89%E5%85%A8/">安全</a>
+          
+        </div>
+
+      
+      <nav class="post-nav">
+        
+          <a class="prev" href="https://yeelone.github.io/post/mac-%E5%AE%89%E8%A3%85polipo%E5%AE%9E%E7%8E%B0%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Mac 安装polipo实现终端代理</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        
+          <a class="next" href="https://yeelone.github.io/post/%E5%8D%87%E7%BA%A7%E5%88%B0dva2%E4%B9%8B%E5%90%8E%E8%AE%B0%E5%BD%95%E4%B8%80%E4%B8%8B%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+            <span class="next-text nav-default">升级到dva2之后，记录一下遇到的问题与解决方法</span>
+            <span class="prev-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+  <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'https-yeelone-github-io';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  
+
+  
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="mailto:yljckh@gmail.com" class="iconfont icon-email" title="email"></a>
+      <a href="https://www.facebook.com/bryan.jiang.357" class="iconfont icon-facebook" title="facebook"></a>
+      <a href="https://plus.google.com/&#43;yeelone" class="iconfont icon-google" title="google"></a>
+      <a href="https://github.com/yeelone" class="iconfont icon-github" title="github"></a>
+  <a href="https://yeelone.github.io/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2018
+    <span class="heart">
+      <i class="iconfont icon-heart"></i>
+    </span>
+    <span class="author">elone</span>
+  </span>
+</div>
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+<script src="https://yeelone.github.io/lib/highlight/highlight.pack.js?v=20171001"></script><script type="text/javascript" src="https://yeelone.github.io/lib/jquery/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="https://yeelone.github.io/lib/slideout/slideout-1.0.1.min.js"></script>
+  <script type="text/javascript" src="https://yeelone.github.io/lib/fancybox/jquery.fancybox-3.1.20.min.js"></script>
+<script type="text/javascript" src="https://yeelone.github.io/dist/even.min.js?v=3.0.1"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

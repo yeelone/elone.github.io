@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Polipo on Elone Pages</title>
+    <link>https://yeelone.github.io/tags/polipo/</link>
+    <description>Recent content in Polipo on Elone Pages</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Mon, 30 Apr 2018 18:44:29 +0800</lastBuildDate>
+    
+	<atom:link href="https://yeelone.github.io/tags/polipo/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Mac 安装polipo实现终端代理</title>
+      <link>https://yeelone.github.io/post/mac-%E5%AE%89%E8%A3%85polipo%E5%AE%9E%E7%8E%B0%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/</link>
+      <pubDate>Mon, 30 Apr 2018 18:44:29 +0800</pubDate>
+      
+      <guid>https://yeelone.github.io/post/mac-%E5%AE%89%E8%A3%85polipo%E5%AE%9E%E7%8E%B0%E7%BB%88%E7%AB%AF%E4%BB%A3%E7%90%86/</guid>
+      <description>Mac 安装polipo实现终端代理 一直用shadowsock，但go get 不支持sock5，所以需要借用polipo来实现终端代理 polipo 安装 ✗ brew install polipo po</description>
+    </item>
+    
+  </channel>
+</rss>

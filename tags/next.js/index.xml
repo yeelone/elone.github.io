@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Next.js on Elone Pages</title>
+    <link>https://yeelone.github.io/tags/next.js/</link>
+    <description>Recent content in Next.js on Elone Pages</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 08 May 2018 15:44:29 +0800</lastBuildDate>
+    
+	<atom:link href="https://yeelone.github.io/tags/next.js/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Next.js 初体验</title>
+      <link>https://yeelone.github.io/post/next.js-%E5%88%9D%E4%BD%93%E9%AA%8C/</link>
+      <pubDate>Tue, 08 May 2018 15:44:29 +0800</pubDate>
+      
+      <guid>https://yeelone.github.io/post/next.js-%E5%88%9D%E4%BD%93%E9%AA%8C/</guid>
+      <description>#Next.js 初体验 安装 Next.js $ yarn add next react react-dom $ yarn run dev //运行查看是否成功 ##配置 typescript &amp;amp;&amp;amp; less $ yarn add @zeit/next-typescript @zeit/next-less typescript less ###创建 next.config.js // next.config.js const withTypescript = require(&#39;@zeit/next-typescript&#39;) const ForkTsCheckerWebpackPlugin = require(&#39;fork-ts-checker-webpack-plugin&#39;) module.exports = withTypescript({ webpack(config, options) { // Do not run type checking twice:</description>
+    </item>
+    
+  </channel>
+</rss>
